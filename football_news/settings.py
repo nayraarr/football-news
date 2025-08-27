@@ -35,7 +35,7 @@ PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 DEBUG = True
 
 #YANG DITAMBAH
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zita.nayra-footballnews.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zita-nayra-footballnews.pbp.cs.ui.ac.id"]
 
 
 # Application definition
