@@ -113,3 +113,7 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+# Menghapus file sensitif 
+.env*
+db.sqlite3
+env/
