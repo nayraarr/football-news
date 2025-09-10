@@ -37,6 +37,9 @@ DEBUG = True
 #YANG DITAMBAH
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zita-nayra-footballnews.pbp.cs.ui.ac.id"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://zita-nayra-footballnews.pbp.cs.ui.ac.id"
+]
 
 # Application definition
 
