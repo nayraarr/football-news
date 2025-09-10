@@ -22,7 +22,7 @@ def create_news(request):
     
     if form.is_valid() and request.method == 'POST':
         form.save()
-        return redirect('show_main')
+        return redirect('main:show_main')
     
     context = {
         'form': form
