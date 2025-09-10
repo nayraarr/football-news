@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.core import serializers
 from main.forms import NewsForm
 from main.models import News
 
@@ -37,3 +39,8 @@ def show_news(request, id):
     }
     
     return render(request, 'news_detail.html', context)
+
+def show_xml(request):
+    news_list = News.objects.all()
+    xml_data = serializers.serialize("xml", news_list)
+    return HttpResponse(xml_data, content_type="application/xml")
