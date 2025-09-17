@@ -3,8 +3,10 @@ from django.http import HttpResponse
 from django.core import serializers
 from main.forms import NewsForm
 from main.models import News
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
-# Create your views here.
+# Menampilkan halaman utama daftar berita
 def show_main(request):
     news_list = News.objects.all()
     
@@ -17,6 +19,7 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
+# Membuat models news baru
 def create_news(request):
     form = NewsForm(request.POST or None)
     
@@ -30,6 +33,7 @@ def create_news(request):
     
     return render(request, 'create_news.html', context)
 
+# Menampilkan detail berita berdasarkan ID
 def show_news(request, id):
     news = get_object_or_404(News, pk=id)
     news.increment_views()
@@ -40,16 +44,19 @@ def show_news(request, id):
     
     return render(request, 'news_detail.html', context)
 
+# Menampilkan seluruh data dalam format XML
 def show_xml(request):
     news_list = News.objects.all()
     xml_data = serializers.serialize("xml", news_list)
     return HttpResponse(xml_data, content_type="application/xml")
 
+# Menampilkan seluruh data dalam format JSON
 def show_json(request):
     news_list = News.objects.all()
     json_data = serializers.serialize("json", news_list)
     return HttpResponse(json_data, content_type="application/json")
 
+# Menampilkan data dalam format XML berdasarkan ID
 def show_xml_by_id(request, news_id):
    try:
        news_item = News.objects.filter(pk=news_id)
@@ -57,7 +64,8 @@ def show_xml_by_id(request, news_id):
        return HttpResponse(xml_data, content_type="application/xml")
    except News.DoesNotExist:
        return HttpResponse(status=404)
-   
+
+# Menampilkan data dalam format JSON berdasarkan ID
 def show_json_by_id(request, news_id):
    try:
        news_item = News.objects.get(pk=news_id)
@@ -65,3 +73,20 @@ def show_json_by_id(request, news_id):
        return HttpResponse(json_data, content_type="application/json")
    except News.DoesNotExist:
        return HttpResponse(status=404)
+   
+# Registrasi user baru
+def register(request):
+    form = UserCreationForm()
+    
+    if request.method == "POST":
+        form =  UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been succesfully created')
+            return redirect('main:login')   
+         
+    context = {
+        'form': form
+    }
+    
+    return render(request, 'register.html', context)
