@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.core import serializers
 from main.forms import NewsForm
 from main.models import News
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Menampilkan halaman utama daftar berita
+@login_required(login_url='/login')
 def show_main(request):
     news_list = News.objects.all()
     
@@ -21,6 +23,7 @@ def show_main(request):
     return render(request, "main.html", context)
 
 # Membuat models news baru
+@login_required(login_url='/login')
 def create_news(request):
     form = NewsForm(request.POST or None)
     
