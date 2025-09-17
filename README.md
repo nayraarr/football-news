@@ -12,4 +12,10 @@
 - Mengembalikan data dalam bentuk XML dan JSON
 - Mengembalikan data berdasarkan ID dalam bentuk XML dan JSON
 
-Test
+# Tutorial 3 (Autentikasi, Session, Cookies dan Selenium)
+- Membuat Fungsi dan Form Registrasi
+- Membuat Fungsi Login
+- Membuat Fungsi Logout
+- Merestriksi Akses Halaman Main dan News Detail
+- Menggunakan Data dari Cookies
+- Menghubungkan Model News dan User
