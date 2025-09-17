@@ -11,12 +11,19 @@
 <h5>Class:</h5>
 <p>{{ class }}</p>
 
+# Tombol untuk menambah berita baru
 <a href="{% url 'main:create_news' %}">
   <button>+ Add News</button>
 </a>
 
+# Tombol untuk logout
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+
 <hr>
 
+# Menampilkan daftar berita
 {% if not news_list %}
     <p>Belum ada data berita pada football news.</p>
 
@@ -36,7 +43,8 @@
     {% endif %}
 
     <p>{{ news.content|truncatewords:25 }}...</p>
-
+    
+    # Link untuk menuju halaman detail berita
     <p><a href="{% url 'main:show_news' news.id %}"><button>Read More</button></a></p>
     </div>
 

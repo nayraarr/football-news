@@ -4,7 +4,7 @@ from django.core import serializers
 from main.forms import NewsForm
 from main.models import News
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Menampilkan halaman utama daftar berita
@@ -107,5 +107,10 @@ def login_user(request):
     
     context = {'form': form}
     return render(request, 'login.html', context)
+
+# Logout User
+def logout_user(request):
+    logout(request)  # Disini session akan dihapus saat user logout
+    return redirect('main:login')
     
     
