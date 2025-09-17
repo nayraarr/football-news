@@ -11,22 +11,28 @@
 <h5>Class:</h5>
 <p>{{ class }}</p>
 
-# Tombol untuk menambah berita baru
 <a href="{% url 'main:create_news' %}">
   <button>+ Add News</button>
 </a>
 
-# Tombol untuk logout
 <a href="{% url 'main:logout' %}">
   <button>Logout</button>
 </a>
 
-# Menampilkan informasi sesi terakhir logins
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 
 <hr>
 
-# Menampilkan daftar berita
+<a href="?filter=all">
+  <button type="button">All Articles</button>
+</a>
+
+
+<a href="?filter=my">
+  <button type="button">My Articles</button>
+</a> 
+
+
 {% if not news_list %}
     <p>Belum ada data berita pada football news.</p>
 
@@ -47,7 +53,6 @@
 
     <p>{{ news.content|truncatewords:25 }}...</p>
     
-    # Link untuk menuju halaman detail berita
     <p><a href="{% url 'main:show_news' news.id %}"><button>Read More</button></a></p>
     </div>
 

@@ -13,12 +13,17 @@ from django.contrib import messages
 # Menampilkan halaman utama daftar berita
 @login_required(login_url='/login')
 def show_main(request):
-    news_list = News.objects.all()
+    filter_type = request.GET.get("filter", "all")  # default 'all'
+
+    if filter_type == "all":
+        news_list = News.objects.all()
+    else:
+        news_list = News.objects.filter(user=request.user)
     
     context = {
         'npm' : '2406404913',
-        'name': 'Zita Nayra Ardini',
-        'class': 'PBP F',
+        'name': request.user.username,
+        'class': 'PBP A',
         'news_list': news_list,
         'last_login': request.COOKIES.get('last_login', 'Never')
     }
@@ -31,7 +36,9 @@ def create_news(request):
     form = NewsForm(request.POST or None)
     
     if form.is_valid() and request.method == 'POST':
-        form.save()
+        news_entry = form.save(commit = False)
+        news_entry.user = request.user
+        news_entry.save()
         return redirect('main:show_main')
     
     context = {
