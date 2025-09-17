@@ -1,6 +1,8 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
+from django.urls import reverse
 from main.forms import NewsForm
 from main.models import News
 from django.contrib.auth.decorators import login_required
@@ -17,7 +19,8 @@ def show_main(request):
         'npm' : '2406404913',
         'name': 'Zita Nayra Ardini',
         'class': 'PBP F',
-        'news_list': news_list
+        'news_list': news_list,
+        'last_login': request.COOKIES.get('last_login', 'Never')
     }
 
     return render(request, "main.html", context)
@@ -103,7 +106,9 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)    # Disini session akan dibuat jika user berhasil login
-            return redirect('main:show_main')
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
     
     else:
         form = AuthenticationForm(request)
@@ -114,6 +119,8 @@ def login_user(request):
 # Logout User
 def logout_user(request):
     logout(request)  # Disini session akan dihapus saat user logout
-    return redirect('main:login')
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
     
     
