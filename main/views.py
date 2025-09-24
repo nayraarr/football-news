@@ -145,4 +145,8 @@ def edit_news(request, id):
     
     return render(request, 'edit_news.html', context)
     
-    
+# Menghapus berita berdasarkan ID
+def delete_news(request, id):
+    news = get_object_or_404(News, pk=id)
+    news.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

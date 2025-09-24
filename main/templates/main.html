@@ -63,6 +63,9 @@
     <a href="{% url 'main:edit_news' news.pk %}">
       <button> Edit </button>
     </a>
+    <a href="{% url 'main:delete_news' news.pk %}">
+      <button> Delete </button>
+  </a>
     {% endif %}
   
   </div>
