@@ -16,5 +16,5 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('edit-news/<str:id>/', edit_news, name='edit_news'),
     path('delete-news/<str:id>/', delete_news, name='delete_news'),
-    path('add-news-ajax/', add_news_entry_ajax, name='add_news_entry_ajax'),
+    path('create-news-ajax/', add_news_entry_ajax, name='add_news_entry_ajax'),
 ]
