@@ -64,7 +64,6 @@
   </div>
 </div>
 
-....
 <script>
 // Configuration
 const NEWS_API_ENDPOINT = "{% url 'main:show_json' %}";
@@ -259,6 +258,12 @@ function initializeNewsPage() {
 
 // Start application
 initializeNewsPage();
+
+document.addEventListener('newsAdded', function() {
+    // Refresh data without page reload
+    fetchNewsFromServer();
+});
+
 </script>
 
 {% endblock content %}
