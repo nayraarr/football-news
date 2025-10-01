@@ -83,7 +83,7 @@
       }, 150); 
   }
 
-  async function addNewsEntry() {
+ async function addNewsEntry() {
     await fetch("{% url 'main:add_news_entry_ajax' %}", {
       method: "POST",
       body: new FormData(document.querySelector('#newsForm')),
@@ -98,12 +98,12 @@
     // Dispatch custom event to notify main.html about new data
     document.dispatchEvent(new CustomEvent('newsAdded'));
 
-    document.getElementById("newsForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        addNewsEntry();
-    })
-
     return false;
   }
   
+  document.getElementById("newsForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    addNewsEntry();
+  })
+
 </script>
