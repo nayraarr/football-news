@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.urls import reverse
 from main.forms import NewsForm
@@ -67,8 +67,22 @@ def show_xml(request):
 # Menampilkan seluruh data dalam format JSON
 def show_json(request):
     news_list = News.objects.all()
-    json_data = serializers.serialize("json", news_list)
-    return HttpResponse(json_data, content_type="application/json")
+    data = [
+        {
+            'id': str(news.id),
+            'title': news.title,
+            'content': news.content,
+            'category': news.category,
+            'thumbnail': news.thumbnail,
+            'news_views': news.news_views,
+            'created_at': news.created_at.isoformat() if news.created_at else None,
+            'is_featured': news.is_featured,
+            'user_id': news.user_id,
+        }
+        for news in news_list
+    ]
+
+    return JsonResponse(data, safe=False)
 
 # Menampilkan data dalam format XML berdasarkan ID
 def show_xml_by_id(request, news_id):
@@ -81,12 +95,23 @@ def show_xml_by_id(request, news_id):
 
 # Menampilkan data dalam format JSON berdasarkan ID
 def show_json_by_id(request, news_id):
-   try:
-       news_item = News.objects.get(pk=news_id)
-       json_data = serializers.serialize("json", [news_item])
-       return HttpResponse(json_data, content_type="application/json")
-   except News.DoesNotExist:
-       return HttpResponse(status=404)
+    try:
+        news = News.objects.select_related('user').get(pk=news_id)
+        data = {
+            'id': str(news.id),
+            'title': news.title,
+            'content': news.content,
+            'category': news.category,
+            'thumbnail': news.thumbnail,
+            'news_views': news.news_views,
+            'created_at': news.created_at.isoformat() if news.created_at else None,
+            'is_featured': news.is_featured,
+            'user_id': news.user_id,
+            'user_username': news.user.username if news.user_id else None,
+        }
+        return JsonResponse(data)
+    except News.DoesNotExist:
+        return JsonResponse({'detail': 'Not found'}, status=404)
    
 # Registrasi user baru
 def register(request):
